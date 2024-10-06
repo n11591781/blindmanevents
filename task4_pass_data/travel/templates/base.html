@@ -11,7 +11,7 @@
       integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="css/mystyle.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mystyle.css') }}">
 
     <!-- Custom Montserrat font -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -21,7 +21,7 @@
       rel="stylesheet"
     />
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="css/mystyle.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/mystyle.css') }}">
     <title>Home - Blind Man Events</title>
   </head>
 
@@ -84,7 +84,6 @@
         </div>
       </nav>
 
-      {% block header %} {% endblock %}
     </header>
 
     {% block content %} {% endblock %}
