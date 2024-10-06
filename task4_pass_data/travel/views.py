@@ -18,3 +18,7 @@ def search():
         return render_template('index.html', destinations=destinations)
     else:
         return redirect(url_for('main.index'))
+    
+@mainbp.route('/viewevent')
+def view_event():
+    return render_template('ViewEvent.html')
