@@ -1,0 +1,161 @@
+{% extends 'base.html' %} {% block content %}
+
+    <!-- Main Content -->
+    <main class="container my-5">
+
+      <!-- Event Title and Status Badge -->
+      <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">LOUIS ARMSTRONG JAZZ EVENT</h1>
+        <!-- Badge -->
+        <span class="badge bg-success">Open</span>
+      </div>
+
+      <!-- Event Details Card -->
+      <div class="card p-4 shadow-sm mb-5">
+        <div class="row">
+          <!-- Event Details and Map -->
+          <div class="col-md-8">
+            <h5 class="fw-bold">Event Details</h5>
+            <ul class="list-unstyled">
+              <li><i class="bi bi-person-fill me-2"></i> Event by Garen Demacia</li>
+              <li><i class="bi bi-geo-alt-fill me-2"></i> Brisbane Piltover Jazz Hall</li>
+              <li><i class="bi bi-clock-fill me-2"></i> 6:00 PM - 8:00 PM</li>
+              <li><i class="bi bi-calendar3 me-2"></i> August 10</li>
+              <li><i class="bi bi-music-note-list me-2"></i> Louis Armstrong</li>
+              <li><i class="bi bi-currency-dollar me-2"></i> 18.99/Adult</li>
+            </ul>
+          </div>
+          <!-- Map -->
+          <div class="col-md-4">
+            <img src="image/maps.jpg" class="img-fluid rounded" alt="Map Location">
+          </div>
+        </div>
+
+        <!-- Event Summary -->
+        <div class="mt-4">
+          <h5 class="fw-bold">Event Summary</h5>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat...</p>
+        </div>
+
+        <!-- Booking Section with Link to Booking Tickets Page -->
+        <div class="text-center mt-5">
+          <a href="Booking Tickets.html" class="btn btn-dark btn-lg">GET TICKETS</a>
+        </div>
+      </div>
+
+      <!-- Organizer Details Section -->
+      <div class="card p-4 shadow-sm mb-5">
+        <h5 class="fw-bold">Organizer Details</h5>
+        <div class="row">
+          <div class="col-md-4">
+            <img src="image/Demacia_Hall.webp" class="img-fluid rounded" alt="Organizer Image">
+          </div>
+          <div class="col-md-8">
+            <p><strong>Organizer:</strong> Garen Demacia</p>
+            <p><strong>Experience:</strong> 15 years of organizing world-class jazz events across Australia.</p>
+            <p><strong>Contact:</strong> garen@example.com</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- More Events from the Creator -->
+      <div class="mb-5">
+        <h5 class="fw-bold">More Events from Garen Demacia</h5>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img src="image/Recommended1.jpg" class="card-img-top" alt="Event 1">
+              <div class="card-body">
+                <h6 class="card-title">Jazz Legends @ Riverside Hall</h6>
+                <p class="text-muted">November 15, 2024</p>
+                <a href="#" class="btn btn-dark btn-sm">View Event</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img src="image/Recommended2.jpg" class="card-img-top" alt="Event 2">
+              <div class="card-body">
+                <h6 class="card-title">Smooth Jazz @ Twilight Lounge</h6>
+                <p class="text-muted">December 5, 2024</p>
+                <a href="#" class="btn btn-dark btn-sm">View Event</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img src="image/recommended3.jpg" class="card-img-top" alt="Event 3">
+              <div class="card-body">
+                <h6 class="card-title">Classic Jazz @ Blue Note Club</h6>
+                <p class="text-muted">January 10, 2025</p>
+                <a href="#" class="btn btn-dark btn-sm">View Event</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Previous Events Section -->
+      <div class="mb-5">
+        <h5 class="fw-bold">Previous Events from Garen Demacia</h5>
+        <div class="row g-3">
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img src="image/smoothjazz.jfif" class="card-img-top" alt="Previous Event 1">
+              <div class="card-body">
+                <h6 class="card-title">The Jazz Masters @ City Hall</h6>
+                <p class="text-muted">July 20, 2024</p>
+                <a href="#" class="btn btn-outline-dark btn-sm">View Event</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img src="image/jazznights.jpg" class="card-img-top" alt="Previous Event 2">
+              <div class="card-body">
+                <h6 class="card-title">Jazz Nights @ The Studio</h6>
+                <p class="text-muted">June 25, 2024</p>
+                <a href="#" class="btn btn-outline-dark btn-sm">View Event</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <img src="image/jazzmasters.png" class="card-img-top" alt="Previous Event 3">
+              <div class="card-body">
+                <h6 class="card-title">Smooth Jazz @ Moonlight Bar</h6>
+                <p class="text-muted">May 12, 2024</p>
+                <a href="#" class="btn btn-outline-dark btn-sm">View Event</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Comments Section -->
+      <div class="card p-4 shadow-sm mb-5">
+        <h5 class="fw-bold">Comments</h5>
+        <ul class="list-group mb-3">
+          <!-- Example Comment -->
+          <li class="list-group-item">
+            <strong>User1:</strong> Amazing event, can’t wait!
+          </li>
+          <li class="list-group-item">
+            <strong>User2:</strong> Looking forward to seeing Louis live.
+          </li>
+        </ul>
+
+        <!-- Comment Form -->
+        <h6 class="fw-bold">Leave a Comment</h6>
+        <form>
+          <div class="mb-3">
+            <textarea class="form-control" rows="3" placeholder="Enter your comment"></textarea>
+          </div>
+          <button type="submit" class="btn btn-dark">Post Comment</button>
+        </form>
+      </div>
+
+    </main>
+
+{% endblock %}
+
