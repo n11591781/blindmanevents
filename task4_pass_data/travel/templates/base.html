@@ -28,61 +28,76 @@
   <body>
     <!-- Header -->
     <header class="bg-light border-bottom">
-      <!--NAVIGATION BAR-->
-      <nav class="navbar navbar-expand-lg">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="index.html">Blind Man Events</a>
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <!-- Link to Home page (index.html) -->
+    <!-- NAVIGATION BAR -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="index.html">Blind Man Events</a>
+      <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+      >
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <!-- Existing navigation links -->
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.html"
-                  >Home</a
-                >
+                  <a class="nav-link active" aria-current="page" href="index.html">Home</a>
               </li>
-              <!-- Link to Event Details page (View Event.html) -->
               <li class="nav-item">
-                <a class="nav-link" href="ViewEvent.html">Explore</a>
+                  <a class="nav-link" href="ViewEvent.html">Explore</a>
               </li>
-              <!-- Link to Create Event page (Create Event.html) -->
               <li class="nav-item">
-                <a class="nav-link" href="Create Event.html">Host</a>
+                  <a class="nav-link" href="Create Event.html">Host</a>
               </li>
-              <!-- Leaving Profile Unlinked -->
               <li class="nav-item">
-                <a class="nav-link" href="#">Profile</a>
+                  <a class="nav-link" href="#">Profile</a>
               </li>
-              <!-- Link to Booking page (Booking Tickets.html) -->
               <li class="nav-item">
-                <a class="nav-link" href="Booking Tickets.html">Booking</a>
+                  <a class="nav-link" href="Booking Tickets.html">Booking</a>
               </li>
-            </ul>
-            <!-- Search bar -->
-            <form class="d-flex" role="search">
+          </ul>
+          <!-- Search bar -->
+          <form class="d-flex align-items-center me-2" role="search">
               <input
-                class="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
+                  class="form-control me-2"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
               />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
-            </form>
+              <button class="btn btn-outline-success me-2" type="submit">Search</button>
+          </form>
+          <!-- User Name Placeholder -->
+          <div class="d-flex align-items-center me-3" style="margin-top: -5px;">
+              <span class="navbar-text">
+                  Welcome, <strong>John Doe</strong> <!-- Placeholder for user's name -->
+              </span>
           </div>
-        </div>
-      </nav>
+          <!-- Hamburger Menu -->
+          <div class="dropdown d-flex" style="margin-top: -17px;">
+              <button
+                  class="btn btn-secondary dropdown-toggle"
+                  type="button"
+                  id="dropdownMenuButton"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+              >
+                  ☰
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
+                  <li><a class="dropdown-item" href="#">View Bookings</a></li>
+                  <li><a class="dropdown-item" href="#">Logout</a></li>
+              </ul>
+          </div>
+      </div>
+  </div>
+</nav>
+
 
     </header>
 
