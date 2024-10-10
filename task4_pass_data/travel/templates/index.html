@@ -35,91 +35,30 @@
 
   <!-- Performances Grid -->
   <div class="row gy-4">
-    <!-- Miles Davis Event -->
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="card h-100 shadow-sm">
-        <img
-          src="static/image/miles_davis.jpg"
-          class="card-img-top img-fluid"
-          alt="Miles Davis"
-          style="height: 300px; object-fit: cover"
-        />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title mb-2">Miles Davis @ Summoners Rift</h5>
-          <p class="card-text mb-auto">6pm-8pm</p>
-
-          <!-- Event Status -->
-          <span class="badge bg-success mt-2 mb-2">Open</span>
-
-          <!-- Link to Event Details -->
-          <a href="{{url_for('main.view_event')}}" class="btn btn-dark mt-3">Event Details</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Ella Fitzgerald -->
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="card h-100 shadow-sm">
-        <img
-          src="static/image/eliza_fitz.jpg"
-          class="card-img-top img-fluid"
-          alt="Ella Fitzgerald"
-          style="height: 300px; object-fit: cover"
-        />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title mb-2">
-            Ella Fitzgerald @ Catchment Bar and Grill
-          </h5>
-          <p class="card-text mb-auto">10PM-Late</p>
-
-          <!-- Event Status -->
-          <span class="badge bg-warning mt-2 mb-2">Inactive</span>
-
-          <!-- Link to Event Details -->
-          <a href="{{url_for('main.view_event')}}" class="btn btn-dark mt-3">Event Details</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- Duke Ellington -->
-    <div class="col-12 col-md-6 col-lg-3">
-      <div class="card h-100 shadow-sm">
-        <img
-          src="static/image/duke.webp"
-          class="card-img-top img-fluid"
-          alt="Duke Ellington"
-          style="height: 300px; object-fit: cover"
-        />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title mb-2">
-            Duke Ellington @ The Cymbal and Lighter
-          </h5>
-          <p class="card-text mb-auto">6PM-10PM</p>
-
-          <!-- Event Status -->
-          <span class="badge bg-danger mt-2 mb-2">Cancelled</span>
-
-          <!-- Link to Event Details -->
-          <a href="{{url_for('main.view_event')}}" class="btn btn-dark mt-3">Event Details</a>
-        </div>
-      </div>
-    </div>
-
+    {% for event in events %}
     <!-- Louis Armstrong -->
     <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm">
         <img
-          src="static/image/louis.webp"
+          src="{{event.image}}"
           class="card-img-top img-fluid"
-          alt="Louis Armstrong"
+          alt="Event Image"
           style="height: 300px; object-fit: cover"
         />
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title mb-2">Louis Armstrong @ The Trumpet Lounge</h5>
-          <p class="card-text mb-auto">8pm - Late</p>
+          <h5 class="card-title mb-2">{{event.title}}</h5>
+          <p class="card-text mb-auto">{{event.time}}</p>
 
-          <!-- Event Status -->
-          <span class="badge bg-secondary mt-2 mb-2">Sold Out</span>
+          <!-- Event Status with Conditional Badge Color -->
+          {% if event.status == 'Cancelled' %}
+            <span class="badge bg-danger mt-2 mb-2">{{event.status}}</span>
+          {% elif event.status == 'Inactive' %}
+            <span class="badge bg-warning mt-2 mb-2">{{event.status}}</span>
+          {% elif event.status == 'Open' %}
+            <span class="badge bg-success mt-2 mb-2">{{event.status}}</span>
+          {% else %}
+            <span class="badge bg-secondary mt-2 mb-2">{{event.status}}</span>
+          {% endif %}
 
           <!-- Link to Event Details -->
           <a href="{{url_for('main.view_event')}}" class="btn btn-dark mt-3"
@@ -128,6 +67,7 @@
         </div>
       </div>
     </div>
+    {% endfor %}
   </div>
 
   <!-- Very Artistic Image Break before footer -->
