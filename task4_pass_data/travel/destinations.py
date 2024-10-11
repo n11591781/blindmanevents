@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
-from .models import Event, Comment
+from .models import Event, Comment, User
 from .forms import DestinationForm, CommentForm
 from . import db
 import os
@@ -11,13 +11,13 @@ destbp = Blueprint('destination', __name__, url_prefix='/destinations')
 
 @destbp.route('/<id>')
 def show(id):
-    destination = db.session.scalar(db.select(Event).where(Event.id==id))
+    event = db.session.scalar(db.select(Event).where(Event.id == id))
     # create the comment form
     form = CommentForm()
     # If the database doesn't return a destination, show a 404 page
-    if not destination:
+    if not event:
        abort(404)
-    return render_template('destinations/show.html', destination=destination, form=form)
+    return render_template('destinations/ViewEvent.html', event=event, form=form)
 
 @destbp.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -60,7 +60,7 @@ def comment(id):
     destination = db.session.scalar(db.select(Event).where(Event.id==id))
     if form.validate_on_submit():  
       # read the comment from the form
-      comment = Comment(text=form.text.data, destination=destination, user=current_user) 
+      comment = Comment(text=form.text.data, event=destination, user=current_user) 
       # here the back-referencing works - comment.destination is set
       # and the link is created
       db.session.add(comment) 

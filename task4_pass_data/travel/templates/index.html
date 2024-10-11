@@ -56,12 +56,12 @@
             <span class="badge bg-warning mt-2 mb-2">{{event.status}}</span>
           {% elif event.status == 'Open' %}
             <span class="badge bg-success mt-2 mb-2">{{event.status}}</span>
-          {% else %}
+          {% elif event.tickets_remaining == '0' or event.status == 'Sold Out' %}
             <span class="badge bg-secondary mt-2 mb-2">{{event.status}}</span>
           {% endif %}
 
           <!-- Link to Event Details -->
-          <a href="{{url_for('main.view_event')}}" class="btn btn-dark mt-3"
+          <a href="{{url_for('destination.show', id=event.id)}}" class="btn btn-dark mt-3"
             >Event Details</a
           >
         </div>

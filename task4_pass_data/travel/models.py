@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(255), nullable=False)
     comments = db.relationship('Comment', backref='user')
     booking_history = db.relationship('PurchasedTicket', backref='user')
+    booking_history = db.relationship('Event', backref='user')
     
     def __repr__(self):
         return f"Name: {self.username}"
@@ -25,6 +26,8 @@ class Event(db.Model):
     image = db.Column(db.String(400))
     tickets_remaining = db.Column(db.Integer)
     status = db.Column(db.String(20))
+    ticket_price = db.Column(db.Integer)
+    organizer_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     comments = db.relationship('Comment', backref='event')
     booking_history = db.relationship('PurchasedTicket', backref='event')
 	
