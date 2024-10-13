@@ -22,3 +22,8 @@ def search():
 @mainbp.route('/viewevent')
 def view_event():
     return render_template('ViewEvent.html')
+
+@mainbp.route('/force-error')
+def force_error():
+    # This will raise an exception and trigger the 500 error handler
+    raise Exception("This is a test 500 error.")
