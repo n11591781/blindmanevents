@@ -43,8 +43,8 @@ def create_app():
     app.register_blueprint(views.mainbp)
     from . import destinations
     app.register_blueprint(destinations.destbp)
-    from . import auth
-    app.register_blueprint(auth.authbp)
+    from .auth import authbp  
+    app.register_blueprint(authbp, url_prefix='/auth')  
 
     # Error handling for 404 and 500 errors
     @app.errorhandler(404)
