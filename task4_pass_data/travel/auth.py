@@ -58,6 +58,16 @@ def login():
             flash(error)
     return render_template('user.html', form=login_form, heading='Login')
 
+auth = Blueprint('auth', __name__)
+
+@auth.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('main.index'))
+
+
 @authbp.route('/logout')
 @login_required
 def logout():
