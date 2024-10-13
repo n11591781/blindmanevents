@@ -76,7 +76,7 @@
 
          <!-- Login Button -->
          {% if current_user.is_authenticated %}
-            <a href="{{ url_for('destination.create') }}" class="btn btn-outline-primary" style="margin-top: -5px;">Logout</a>
+            <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-primary" style="margin-top: -5px;">Logout</a>
          {% else %}
             <a href="{{ url_for('destination.create') }}" class="btn btn-outline-primary" style="margin-top: -5px;">Login</a>
          {% endif %}
