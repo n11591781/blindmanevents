@@ -1,38 +1,47 @@
-{% extends "base.html" %} {% from 'bootstrap5/form.html' import render_form %}
+{% extends "base.html" %}
+{% from 'bootstrap5/form.html' import render_form %}
+
 {% block content %}
+    <!-- This is the real login page -->
 
-<div class="container-fluid">
-  <div class="page-header">
-    <h4>{{heading}}</h4>
-  </div>
+<div class="container mt-5">
+  <div class="row">
+    <!-- Left Section - Login Form -->
+    <div class="col-md-6 d-flex align-items-center justify-content-center">
+      <div class="card p-4 border-0 shadow-sm" style="width: 100%; max-width: 400px;">
+        <div class="text-center mb-4">
+          <h2>Login to Your Account</h2>
+          <p class="text-muted">Login using social networks</p>
 
-  <!-- flashes any messages to the user -->
-  {% with messages = get_flashed_messages() %} {% if messages %}
-  <!-- check if there are any messages -->
-  <div class="container-fluid">
-    <div class="row mt-3 mb-3">
-      <div class="col-md-12">
-        {% for message in messages %}
-        <!--loop through the messages-->
-        <div class="alert alert-info">{{message}}</div>
-        <!--display as alert-->
-        {% endfor %}
+          <!-- Social Media Buttons -->
+          <div class="d-flex justify-content-center mb-3">
+            <button class="btn btn-outline-primary mx-2" style="border-radius: 50%;">F</button>
+            <button class="btn btn-outline-danger mx-2" style="border-radius: 50%;">G+</button>
+            <button class="btn btn-outline-secondary mx-2" style="border-radius: 50%;">in</button>
+          </div>
+
+          <p class="text-muted">OR</p>
+        </div>
+
+        <!-- Login Form -->
+        <div>
+          {{ render_form(form) }}
+        </div>
+
+        <div class="text-center mt-3">
+        </div>
       </div>
     </div>
-  </div>
-  {% endif %} {% endwith %}
 
-  <!-- Form rendering is simple and easy if using bootstrap -->
-  <div class="col-md-6 ml-5">{{render_form(form)}}</div>
-
-  <!-- When you have login form, then do show the user a link to register -->
-  {% if heading|lower == 'login' %}
-  <div class="col-md-4 mb-5 ml-5">
-    <p>
-      New user?
-      <a href="{{ url_for('auth.register') }}">Click here to register</a>.
-    </p>
+<!-- Right Section - Image Background -->
+<div class="col-md-6" style="background: url('{{ url_for('static', filename='image/signin.webp') }}') no-repeat center center; background-size: cover; color: white;">
+  <div class="d-flex flex-column justify-content-center align-items-center h-100 text-center">
+    <h2 class="mb-3" style="color: #fff;">New Here?</h2>
+    <p class="text-center" style="max-width: 250px; color: #fff;">Sign up and discover a great amount of new opportunities!</p>
+    <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg mt-3">Sign Up</a>
   </div>
-  {% endif %}
 </div>
+
+
+
 {% endblock %}
