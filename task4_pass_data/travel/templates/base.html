@@ -50,18 +50,19 @@
                   <a class="nav-link active" aria-current="page" href="{{url_for('main.index')}}">Home</a>
               </li>
               <li class="nav-item">
-                  <a class="nav-link" href="ViewEvent.html">Explore</a>
-              </li>
-              <li class="nav-item">
                   <a class="nav-link" href="Create Event.html">Host</a>
               </li>
               <li class="nav-item">
                   <a class="nav-link" href="#">Profile</a>
               </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="Booking Tickets.html">Booking</a>
-              </li>
           </ul>
+
+          <!-- User Name Placeholder -->
+          <div class="d-flex align-items-center me-3" style="margin-top: -5px;">
+            {% if current_user.is_authenticated %}
+                <a class="nav-item nav-link disabled text-muted" style="margin-right: 20px;">Welcome {{current_user.username}}</a>
+            {% endif %}
+
           <!-- Search bar and Login button container -->
           <div class="d-flex align-items-center">
             <form class="d-flex align-items-center me-2" action="{{ url_for('main.search') }}" role="search" style="margin-top: 10px;">
@@ -76,12 +77,6 @@
             <a href="{{ url_for('destination.create') }}" class="btn btn-outline-primary" style="margin-top: -5px;">Login</a>
          {% endif %}
         </div>
-
-          <!-- User Name Placeholder -->
-          <div class="d-flex align-items-center me-3" style="margin-top: -5px;">
-            {% if current_user.is_authenticated %}
-                <a class="nav-item nav-link disabled text-muted" href="#">Welcome {{current_user.username}}</a>
-            {% endif %}
       </div>
   </div>
 </nav>
