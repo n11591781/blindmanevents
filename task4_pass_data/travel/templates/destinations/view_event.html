@@ -10,8 +10,16 @@
       <!-- Event Title and Status Badge -->
       <div class="text-center mb-5">
         <h1 class="display-4 fw-bold">{{event.title}}</h1>
-        <!-- Badge -->
-        <span class="badge bg-success">{{event.status}}</span>
+        <!-- Event Status with Conditional Badge Color -->
+        {% if event.status == 'Cancelled' %}
+          <span class="badge bg-danger mt-2 mb-2">{{event.status}}</span>
+        {% elif event.status == 'Inactive' %}
+          <span class="badge bg-warning mt-2 mb-2">{{event.status}}</span>
+        {% elif event.status == 'Open' %}
+          <span class="badge bg-success mt-2 mb-2">{{event.status}}</span>
+        {% elif event.tickets_remaining == '0' or event.status == 'Sold Out' %}
+          <span class="badge bg-secondary mt-2 mb-2">{{event.status}}</span>
+        {% endif %}
       </div>
 
       <!-- Event Details Card -->
@@ -30,7 +38,7 @@
           </div>
           <!-- Map -->
           <div class="col-md-4">
-            <img src="image/maps.jpg" class="img-fluid rounded" alt="Map Location">
+            <img src="{{event.image}}" class="img-fluid rounded" alt="Event Image">
           </div>
         </div>
 
@@ -42,7 +50,11 @@
 
         <!-- Booking Section with Link to Booking Tickets Page -->
         <div class="text-center mt-5">
-          <a href="Booking Tickets.html" class="btn btn-dark btn-lg">GET TICKETS</a>
+          {% if event.status == 'Open' %}
+            <a href="Booking Tickets.html" class="btn btn-dark btn-lg">GET TICKETS</a>
+          {% else %}
+            <a href="Booking Tickets.html" class="btn btn-dark btn-lg disabled" aria-disabled="true">GET TICKETS</a>
+          {% endif %}
         </div>
       </div>
 

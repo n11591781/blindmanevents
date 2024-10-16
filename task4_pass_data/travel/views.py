@@ -21,7 +21,7 @@ def search():
     
 @mainbp.route('/viewevent')
 def view_event():
-    return render_template('ViewEvent.html')
+    return render_template('view_event.html')
 
 @mainbp.route('/force-error')
 def force_error():
