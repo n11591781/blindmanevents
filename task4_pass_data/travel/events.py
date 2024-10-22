@@ -7,9 +7,9 @@ from werkzeug.utils import secure_filename
 # additional import:
 from flask_login import login_required, current_user
 
-destbp = Blueprint('destination', __name__, url_prefix='/destinations')
+eventdp = Blueprint('destination', __name__, url_prefix='/events')
 
-@destbp.route('/<id>')
+@eventdp.route('/<id>')
 def show(id):
     event = db.session.scalar(db.select(Event).where(Event.id == id))
     # create the comment form
@@ -17,9 +17,9 @@ def show(id):
     # If the database doesn't return a destination, show a 404 page
     if not event:
        abort(404)
-    return render_template('destinations/view_event.html', event=event, form=form)
+    return render_template('events/view_event.html', event=event, form=form)
 
-@destbp.route('/create', methods=['GET', 'POST'])
+@eventdp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
   print('Method type: ', request.method)
@@ -36,7 +36,7 @@ def create():
     flash('Successfully created new travel destination', 'success')
     # Always end with redirect when form is valid
     return redirect(url_for('destination.create'))
-  return render_template('destinations/create.html', form=form)
+  return render_template('events/create.html', form=form)
 
 def check_upload_file(form):
   # get file data from form  
@@ -52,7 +52,7 @@ def check_upload_file(form):
   fp.save(upload_path)
   return db_upload_path
 
-@destbp.route('/<id>/comment', methods=['GET', 'POST'])  
+@eventdp.route('/<id>/comment', methods=['GET', 'POST'])  
 @login_required
 def comment(id):  
     form = CommentForm()  

@@ -1,17 +1,21 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
-from wtforms.validators import InputRequired, Email, EqualTo
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, IntegerField, DecimalField
+from wtforms.validators import InputRequired, Email, EqualTo, NumberRange
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
 ALLOWED_FILE = {'PNG','JPG','png','jpg'}
 
 # Create new destination
 class DestinationForm(FlaskForm):
-  name = StringField('Country', validators=[InputRequired()])
-  description = TextAreaField('Description', 
-            validators = [InputRequired()])
+  title = StringField('Title', validators=[InputRequired()])
+  date = StringField('Date', validators=[InputRequired()])
+  time = StringField('Time', validators=[InputRequired()])
+  location = StringField('Location', validators=[InputRequired()])
+  event_description = TextAreaField('Event Description', validators = [InputRequired()])
   image = FileField('Destination Image', validators=[FileRequired(message='Image cannot be empty'), FileAllowed(ALLOWED_FILE, message='Only PNG or JPG files allowed')])
-  currency = StringField('Currency', validators=[InputRequired()])
+  number_of_tickets = IntegerField('Number of Tickets', validators=[InputRequired(), NumberRange(min=1)])
+  price_of_tickets = DecimalField('Price of Tickets', validators=[InputRequired(), NumberRange(min=0.01)])
+  status = StringField('Status', validators=[InputRequired()])
   submit = SubmitField("Create")
     
 # User login

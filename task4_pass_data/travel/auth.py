@@ -38,7 +38,7 @@ def register():
         return redirect(url_for('main.index'))
     else:
         # Use registeruser.html instead of user.html
-        return render_template('registeruser.html', form=register, heading='Register')
+        return render_template('user.html', form=register, heading='Register')
 
 @authbp.route('/login', methods=['GET', 'POST'])
 def login():
