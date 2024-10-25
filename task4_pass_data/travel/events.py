@@ -12,11 +12,9 @@ eventdp = Blueprint('destination', __name__, url_prefix='/events')
 @eventdp.route('/<id>')
 def show(id):
     event = db.session.scalar(db.select(Event).where(Event.id == id))
-    # create the comment form
     form = CommentForm()
-    # If the database doesn't return a destination, show a 404 page
     if not event:
-       abort(404)
+        abort(404)
     return render_template('events/view_event.html', event=event, form=form)
 
 @eventdp.route('/create', methods=['GET', 'POST'])

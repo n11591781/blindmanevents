@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Get Tickets for {{ event.title }}</h1>
+    <p class="text-muted">{{ event.date }} at {{ event.time }} | {{ event.location }}</p>
+    <hr class="my-4" />
+  </div>
+
+  <!-- Event Details Summary -->
+  <section class="mb-5">
+    <div class="card p-4 shadow-sm">
+      <div class="row align-items-center"> <!-- Centering the image vertically -->
+        <div class="col-md-8">
+          <h5 class="fw-bold">Event Details</h5>
+          <ul class="list-unstyled">
+            <li><strong>Event Organizer:</strong> {{ event.user.username }}</li>
+            <li><strong>Location:</strong> {{ event.location }}</li>
+            <li><strong>Date:</strong> {{ event.date }}</li>
+            <li><strong>Time:</strong> {{ event.time }}</li>
+            <li><strong>Ticket Price:</strong> ${{ event.ticket_price }}</li>
+            <li><strong>Tickets Remaining:</strong> {{ event.tickets_remaining }}</li>
+          </ul>
+        </div>
+        <div class="col-md-4 d-flex justify-content-center">
+          <img src="{{ event.image }}" class="img-fluid rounded" alt="Event Image" style="max-width: 100%; height: auto;">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticket Purchase Form -->
+  <section class="mb-5">
+    <div class="card p-4 shadow-sm">
+      <h5 class="fw-bold">Purchase Tickets</h5>
+      <form method="POST" action="{{ url_for('main.get_tickets', event_id=event.id) }}">
+        <div class="mb-3">
+            <label for="ticketQuantity" class="form-label">Number of Tickets</label>
+            <input type="number" class="form-control" id="ticketQuantity" name="ticket_quantity" min="1" max="{{ event.tickets_remaining }}" value="1" required>
+        </div>
+        <button type="submit" class="btn btn-dark btn-lg">Confirm Purchase</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Additional Information Section -->
+  <section class="mb-5">
+    <h5 class="fw-bold">Additional Information</h5>
+    <p>Please ensure all details are correct before confirming your purchase. Once you confirm, your tickets will be reserved and you will receive a confirmation email with your ticket details.</p>
+  </section>
+</main>
+{% endblock %}

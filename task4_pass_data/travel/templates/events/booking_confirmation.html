@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<main class="container my-5">
+  <div class="text-center mb-5">
+    <h1 class="display-4 fw-bold">Booking Confirmed!</h1>
+    <p class="text-muted">Thank you for your purchase. Your tickets for {{ event.title }} are confirmed.</p>
+    <p>Date: {{ event.date }} | Time: {{ event.time }} | Location: {{ event.location }}</p>
+    <img src="{{ event.image }}" class="img-fluid my-3" alt="Event Image" style="width: 300px;">
+    <a href="{{ url_for('main.profile') }}" class="btn btn-primary mt-3">View Your Booking History</a>
+  </div>
+</main>
+{% endblock %}

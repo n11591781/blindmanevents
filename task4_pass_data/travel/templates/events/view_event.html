@@ -48,15 +48,16 @@
           <p> {{event.event_description}}</p>
         </div>
 
-        <!-- Booking Section with Link to Booking Tickets Page -->
-        <div class="text-center mt-5">
-          {% if event.status == 'Open' %}
-            <a href="Booking Tickets.html" class="btn btn-dark btn-lg">GET TICKETS</a>
-          {% else %}
-            <a href="Booking Tickets.html" class="btn btn-dark btn-lg disabled" aria-disabled="true">GET TICKETS</a>
-          {% endif %}
-        </div>
+      <!-- Booking Section with Link to Booking Tickets Page -->
+      <div class="text-center mt-5">
+        {% if event.status == 'Open' %}
+          <a href="{{ url_for('main.get_tickets', event_id=event.id) }}" class="btn btn-dark btn-lg">GET TICKETS</a>
+        {% else %}
+          <a href="#" class="btn btn-dark btn-lg disabled" style="pointer-events: none; opacity: 0.65;">GET TICKETS</a>
+        {% endif %}
       </div>
+
+
 
       <!-- Organizer Details Section -->
       <div class="card p-4 shadow-sm mb-5">
@@ -164,4 +165,3 @@
     </main>
 
 {% endblock %}
-
