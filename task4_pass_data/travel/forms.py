@@ -6,7 +6,7 @@ from flask_wtf.file import FileRequired, FileField, FileAllowed
 ALLOWED_FILE = {'PNG','JPG','png','jpg'}
 
 # Create new destination
-class DestinationForm(FlaskForm):
+class EventForm(FlaskForm):
   title = StringField('Title', validators=[InputRequired()])
   date = StringField('Date', validators=[InputRequired()])
   time = StringField('Time', validators=[InputRequired()])

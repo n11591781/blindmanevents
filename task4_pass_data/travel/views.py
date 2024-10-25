@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .models import Event
+from .models import Event, PurchasedTicket
 from . import db
+from flask_login import current_user
 
 mainbp = Blueprint('main', __name__)
 
@@ -48,13 +49,16 @@ def get_tickets(event_id):
     
     if request.method == 'POST':
         ticket_quantity = request.form.get('ticket_quantity', type=int)
+        ticket_identifier = f"{event.title}{event.tickets_remaining}"
 
         # Check if the ticket quantity is valid
         if ticket_quantity and 0 < ticket_quantity <= event.tickets_remaining:
             # Update the database here to reduce the tickets remaining, or process the order
-            event.tickets_remaining -= ticket_quantity
+            for ticket in range(ticket_quantity):
+                purchased_ticket = PurchasedTicket(ticket_id=ticket_identifier,user_id=current_user.id,event_id=event.id)
+                event.tickets_remaining -= 1
+                db.session.add(purchased_ticket)
             db.session.commit()
-
             # Redirect to a confirmation page after successful purchase
             return redirect(url_for('main.booking_confirmation', event_id=event_id))
         else:

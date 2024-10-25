@@ -20,7 +20,7 @@ def register():
         email = register.email_id.data
         
         # check if a user exists
-        user = db.session.scalar(db.select(User).where(User.name == uname))
+        user = db.session.scalar(db.select(User).where(User.username == uname))
         
         if user:  # this returns true when user is not None
             flash('Username already exists, please try another')
@@ -30,7 +30,7 @@ def register():
         pwd_hash = generate_password_hash(pwd)
         
         # create a new User model object
-        new_user = User(name=uname, password_hash=pwd_hash, emailid=email)
+        new_user = User(username=uname, password_hash=pwd_hash, emailid=email)
         db.session.add(new_user)
         db.session.commit()
         
