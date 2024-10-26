@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for
-from .models import Event, PurchasedTicket
+from .models import Event, PurchasedTicket, User
 from . import db
 from flask_login import current_user
 
@@ -25,13 +25,13 @@ def view_event(event_id):
     event = db.session.get(Event, event_id)
     if event is None:
         return "Event not found", 404
-    return render_template('events/view_event.html', event=event)
+    return render_template('events/view_event.html', event=event, organizer_username=event.user.username)
 
 
 @mainbp.route('/profile')
 def profile():
-    # Render the profile page located in the 'events' folder
-    return render_template('events/profile.html')
+    user = db.session.get(User, current_user.id)  
+    return render_template('events/profile.html', user=user)
 
 
 @mainbp.route('/force-error')

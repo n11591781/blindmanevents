@@ -67,9 +67,8 @@
             <img src="image/Demacia_Hall.webp" class="img-fluid rounded" alt="Organizer Image">
           </div>
           <div class="col-md-8">
-            <p><strong>Organizer:</strong> </p>
-            <p><strong>Experience:</strong> 15 years of organizing world-class jazz events across Australia.</p>
-            <p><strong>Contact:</strong> </p>
+            <p><strong>Organizer: </strong>{{ event.user.username }}</p>
+            <p><strong>User Since: </strong>{{ event.user.joined_on }}</p>
           </div>
         </div>
       </div>
