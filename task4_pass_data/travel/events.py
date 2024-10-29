@@ -12,10 +12,11 @@ eventdp = Blueprint('destination', __name__, url_prefix='/events')
 @eventdp.route('/<id>')
 def show(id):
     event = db.session.scalar(db.select(Event).where(Event.id == id))
-    form = CommentForm()
     if not event:
         abort(404)
-    return render_template('events/view_event.html', event=event, form=form)
+    organizer_events = db.session.scalars(db.select(Event).where(Event.organizer_id == event.organizer_id)).all()
+    form = CommentForm()
+    return render_template('events/view_event.html', event=event, organizer_events=organizer_events, form=form)
 
 @eventdp.route('/create', methods=['GET', 'POST'])
 @login_required
@@ -25,15 +26,15 @@ def create():
   if form.validate_on_submit():
     # call the function that checks and returns image
     db_file_path = check_upload_file(form)
-    event = Event(title=form.title.data,date=form.date.data,time=form.time.data,location=form.location.data,event_description=form.event_description.data, 
-    image=db_file_path,tickets_remaining=form.number_of_tickets,status=form.status.data,ticket_price=form.price_of_tickets)
+    event = Event(title=form.title.data, date=form.date.data, time=form.time.data, location=form.location.data, event_description=form.event_description.data, image=db_file_path,
+    tickets_remaining=form.number_of_tickets.data, status=form.status.data, ticket_price=form.price_of_tickets.data, organizer_id=current_user.id)
     # add the object to the db session
     db.session.add(event)
     # commit to the database
     db.session.commit()
     flash('Successfully created new event', 'success')
     # Always end with redirect when form is valid
-    return redirect(url_for('event.create'))
+    return redirect(url_for('destination.create'))
   return render_template('events/create.html', form=form)
 
 def check_upload_file(form):
@@ -55,10 +56,10 @@ def check_upload_file(form):
 def comment(id):  
     form = CommentForm()  
     # get the destination object associated to the page and the comment
-    destination = db.session.scalar(db.select(Event).where(Event.id==id))
+    event = db.session.scalar(db.select(Event).where(Event.id==id))
     if form.validate_on_submit():  
       # read the comment from the form
-      comment = Comment(text=form.text.data, event=destination, user=current_user) 
+      comment = Comment(text=form.text.data, event=event, user=current_user) 
       # here the back-referencing works - comment.destination is set
       # and the link is created
       db.session.add(comment) 

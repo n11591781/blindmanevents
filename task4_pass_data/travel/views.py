@@ -30,8 +30,9 @@ def view_event(event_id):
 
 @mainbp.route('/profile')
 def profile():
-    user = db.session.get(User, current_user.id)  
-    return render_template('events/profile.html', user=user)
+    user = db.session.get(User, current_user.id)
+    booked_events = db.session.scalars(db.select(PurchasedTicket).where(PurchasedTicket.user_id==current_user.id)).all()
+    return render_template('events/profile.html', user=user, booked_events=booked_events)
 
 
 @mainbp.route('/force-error')
@@ -49,12 +50,12 @@ def get_tickets(event_id):
     
     if request.method == 'POST':
         ticket_quantity = request.form.get('ticket_quantity', type=int)
-        ticket_identifier = f"{event.title}{event.tickets_remaining}"
 
         # Check if the ticket quantity is valid
         if ticket_quantity and 0 < ticket_quantity <= event.tickets_remaining:
             # Update the database here to reduce the tickets remaining, or process the order
             for ticket in range(ticket_quantity):
+                ticket_identifier = f"{event.title[:5]}{event.tickets_remaining}"
                 purchased_ticket = PurchasedTicket(ticket_id=ticket_identifier,user_id=current_user.id,event_id=event.id)
                 event.tickets_remaining -= 1
                 db.session.add(purchased_ticket)

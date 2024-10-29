@@ -6,7 +6,7 @@
     <!-- User Profile Header -->
     <div class="text-center mb-5">
       <h1 class="display-4 fw-bold">Your Profile</h1>
-      <p class="text-muted">Manage your account, view your activity, and explore personalized recommendations.</p>
+      <p class="text-muted">Manage your account and View purchased tickets</p>
       <hr class="my-4" />
     </div>
 
@@ -21,7 +21,7 @@
           <div class="col-md-9">
             <h3>{{user.username}}</h3>
             <p><strong>Email: </strong>{{user.emailid}}</p>
-            <p><strong>Member Since: </strong>{{user.joined_on}}</p>
+            <p><strong>Member Since: </strong>{{user.joined_on.strftime('%Y-%m-%d')}}</p>
             <a href="#" class="btn btn-outline-primary mt-2">Edit Profile</a>
           </div>
         </div>
@@ -32,40 +32,24 @@
     <section class="mb-5">
       <h2 class="fw-bold mb-4">Booking History</h2>
       <div class="row g-4">
+        {% for booked_event in booked_events %}
         <div class="col-md-6">
           <div class="card shadow-sm p-3">
             <div class="row g-0">
               <div class="col-md-4">
-                <img src="{{ url_for('static', filename='image/miles_davis.jpg') }}" class="img-fluid rounded-start" alt="Miles Davis Event">
+                <img src="{{ booked_event.event.image }}" class="img-fluid rounded-start" alt="Miles Davis Event">
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">Miles Davis @ Summoners Rift</h5>
-                  <p class="card-text"><strong>Booking ID:</strong> 12345ABC</p>
-                  <p class="card-text"><strong>Booked on:</strong> September 1, 2024 at 3:00 PM</p>
+                  <h5 class="card-title">{{ booked_event.event.title }}</h5>
+                  <p class="card-text"><strong>Booking ID: </strong>{{ booked_event.ticket_id }}</p>
+                  <p class="card-text"><strong>Booked on: </strong>{{ booked_event.booked_on.strftime('%Y-%m-%d') }}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- Personalized Recommendations Section -->
-    <section class="mb-5">
-      <h2 class="fw-bold mb-4">Recommended Events</h2>
-      <div class="row g-4">
-        <!-- Example Recommended Event Card -->
-        <div class="col-md-4">
-          <div class="card shadow-sm">
-            <img src="{{ url_for('static', filename='image/recommended_event.jpg') }}" class="card-img-top" alt="Event Image">
-            <div class="card-body">
-              <h5 class="card-title">Jazz Night @ The Blue Note</h5>
-              <p class="card-text">Join us for an unforgettable night of jazz music.</p>
-              <a href="#" class="btn btn-primary">View Event</a>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
     </section>
 

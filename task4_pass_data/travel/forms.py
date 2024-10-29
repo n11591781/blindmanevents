@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
-from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField, IntegerField, DecimalField
-from wtforms.validators import InputRequired, Email, EqualTo, NumberRange
+from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordField
+from wtforms.validators import InputRequired, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
 ALLOWED_FILE = {'PNG','JPG','png','jpg'}
@@ -13,8 +13,8 @@ class EventForm(FlaskForm):
   location = StringField('Location', validators=[InputRequired()])
   event_description = TextAreaField('Event Description', validators = [InputRequired()])
   image = FileField('Destination Image', validators=[FileRequired(message='Image cannot be empty'), FileAllowed(ALLOWED_FILE, message='Only PNG or JPG files allowed')])
-  number_of_tickets = IntegerField('Number of Tickets', validators=[InputRequired(), NumberRange(min=1)])
-  price_of_tickets = DecimalField('Price of Tickets', validators=[InputRequired(), NumberRange(min=0.01)])
+  number_of_tickets = StringField('Number of Tickets', validators=[InputRequired()])
+  price_of_tickets = StringField('Price of Tickets', validators=[InputRequired()])
   status = StringField('Status', validators=[InputRequired()])
   submit = SubmitField("Create")
     
