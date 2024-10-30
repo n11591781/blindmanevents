@@ -6,7 +6,11 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), index=True, unique=True, nullable=False)
+    fname = db.Column(db.String(100), index=True, unique=True, nullable=False)
+    lname = db.Column(db.String(100), index=True, unique=True, nullable=False)
     emailid = db.Column(db.String(100), index=True, nullable=False)
+    street_address = db.Column(db.String(100), index=True, nullable=False)
+    contact_info = db.Column(db.String(100), index=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     joined_on = db.Column(db.DateTime, default=datetime.now())
     comments = db.relationship('Comment', backref='user')

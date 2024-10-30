@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from .models import Event, PurchasedTicket, User
 from . import db
-from flask_login import current_user
+from flask_login import login_required, current_user
 
 mainbp = Blueprint('main', __name__)
 
@@ -29,6 +29,7 @@ def view_event(event_id):
 
 
 @mainbp.route('/profile')
+@login_required
 def profile():
     user = db.session.get(User, current_user.id)
     booked_events = db.session.scalars(db.select(PurchasedTicket).where(PurchasedTicket.user_id==current_user.id)).all()
@@ -37,12 +38,11 @@ def profile():
 
 @mainbp.route('/force-error')
 def force_error():
-    # This will raise an exception and trigger the 500 error handler
     raise Exception("This is a test 500 error.")
 
 
-# please
 @mainbp.route('/event/<int:event_id>/get-tickets', methods=['GET', 'POST'])
+@login_required
 def get_tickets(event_id):
     event = db.session.get(Event, event_id)
     if event is None:

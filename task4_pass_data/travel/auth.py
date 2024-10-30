@@ -1,4 +1,3 @@
-
 from flask import Blueprint, render_template, redirect, url_for, flash
 from .forms import LoginForm, RegisterForm
 from flask_login import login_user, login_required, logout_user
@@ -16,8 +15,12 @@ def register():
     if register.validate_on_submit():
         # get username, password and email from the form
         uname = register.user_name.data
-        pwd = register.password.data
+        fname = register.first_name.data
+        lname = register.last_name.data
         email = register.email_id.data
+        address = register.street_address.data
+        phone = register.contact_number.data
+        pwd = register.password.data
         
         # check if a user exists
         user = db.session.scalar(db.select(User).where(User.username == uname))
@@ -30,7 +33,7 @@ def register():
         pwd_hash = generate_password_hash(pwd)
         
         # create a new User model object
-        new_user = User(username=uname, password_hash=pwd_hash, emailid=email)
+        new_user = User(username=uname, fname=fname, lname=lname, emailid=email, street_address=address, contact_info=phone, password_hash=pwd_hash)
         db.session.add(new_user)
         db.session.commit()
         
