@@ -1,15 +1,21 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
+{% block content %}
 <!-- split sec -->
 <section class="split-section">
   <div class="top-half">
-    <h1>SMOOTH GROOVES</h1>
+    <h1>FIND YOUR GROOVE</h1>
   </div>
-  <div class="bottom-half">
-    <h2>WHO ARE WE?</h2>
+  <div class="bottom-half text-center">
     <div class="container">
-      <div class="row">
-        <div class="col-md-4 col-lg-12">
-          <h4>At Blind Man Events, we are passionate about immersing our customers in the vibrant and soulful world of Jazz. Whether you're a seasoned aficionado or just beginning to explore this rich genre, our mission is to create unforgettable experiences that connect you to the heart of Jazz.</h4>
+      <div class="row justify-content-center">
+        <div class="col-md-3">
+          <button class="btn btn-dark w-100 my-2">LIVE JAZZ CONCERTS</button>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-dark w-100 my-2">TRIBUTE SHOWS</button>
+        </div>
+        <div class="col-md-3">
+          <button class="btn btn-dark w-100 my-2">JAZZ FESTIVALS</button>
         </div>
       </div>
     </div>
@@ -27,7 +33,7 @@
   <!-- Performances Grid -->
   <div class="row gy-4">
     {% for event in events %}
-    <!-- Louis Armstrong -->
+    <!-- Event Card -->
     <div class="col-12 col-md-6 col-lg-3">
       <div class="card h-100 shadow-sm">
         <img
@@ -52,9 +58,9 @@
           {% endif %}
 
           <!-- Link to Event Details -->
-          <a href="{{url_for('destination.show', id=event.id)}}" class="btn btn-dark mt-3"
-            >Event Details</a
-          >
+          <a href="{{url_for('destination.show', id=event.id)}}" class="btn btn-dark mt-3">
+            Event Details
+          </a>
         </div>
       </div>
     </div>
@@ -70,5 +76,5 @@
       style="height: 33vh; object-fit: cover"
     />
   </div>
-  {% endblock %}
 </main>
+{% endblock %}
