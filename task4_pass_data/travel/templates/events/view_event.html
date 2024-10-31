@@ -48,6 +48,13 @@
           <p> {{event.event_description}}</p>
         </div>
 
+        <!-- Edit Event Button (Only for Organizer) -->
+        {% if current_user.id == event.organizer_id %}
+        <div class="text-end mt-3">
+          <a href="{{ url_for('destination.edit', id=event.id) }}" class="btn btn-primary">Edit Event</a>
+        </div>
+        {% endif %}
+
       <!-- Booking Section with Link to Booking Tickets Page -->
       <div class="text-center mt-5">
         {% if event.status == 'Open' %}

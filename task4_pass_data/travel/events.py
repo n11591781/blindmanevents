@@ -69,3 +69,38 @@ def comment(id):
       # print('Your comment has been added', 'success') 
     # using redirect sends a GET request to destination.show
     return redirect(url_for('destination.show', id=id))
+
+@eventdp.route('/<id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit(id):
+    event = db.session.scalar(db.select(Event).where(Event.id == id))
+    if not event:
+        abort(404)
+    
+    # Check if the current user is the organizer of the event
+    if event.organizer_id != current_user.id:
+        flash("You are not authorized to edit this event", "danger")
+        return redirect(url_for('destination.show', id=id))
+
+    form = EventForm(obj=event)
+    
+    if form.validate_on_submit():
+        event.title = form.title.data
+        event.date = form.date.data
+        event.time = form.time.data
+        event.location = form.location.data
+        event.event_description = form.event_description.data
+        event.tickets_remaining = form.number_of_tickets.data
+        event.status = form.status.data
+        event.ticket_price = form.price_of_tickets.data
+        
+        # Handle image update
+        if form.image.data:
+            db_file_path = check_upload_file(form)
+            event.image = db_file_path
+
+        db.session.commit()
+        flash("Event updated successfully", "success")
+        return redirect(url_for('destination.show', id=id))
+
+    return render_template('events/edit_event.html', form=form, event=event)
