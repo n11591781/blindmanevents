@@ -28,6 +28,7 @@ class Event(db.Model):
     time = db.Column(db.String(80))
     location = db.Column(db.String(100))
     event_description = db.Column(db.String(200))
+    event_type = db.Column(db.String(20))
     image = db.Column(db.String(400))
     tickets_remaining = db.Column(db.Integer)
     status = db.Column(db.String(20))

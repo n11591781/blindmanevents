@@ -9,13 +9,13 @@
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-md-3">
-          <button class="btn btn-dark w-100 my-2">LIVE JAZZ CONCERTS</button>
+          <a class="btn btn-dark w-100 my-2" href="{{ url_for('main.category_view', category="LiveJazz") }}">LIVE JAZZ CONCERTS</a>
         </div>
         <div class="col-md-3">
-          <button class="btn btn-dark w-100 my-2">TRIBUTE SHOWS</button>
+          <a class="btn btn-dark w-100 my-2" href="{{ url_for('main.category_view', category="TributeShow") }}">TRIBUTE SHOWS</a>
         </div>
         <div class="col-md-3">
-          <button class="btn btn-dark w-100 my-2">JAZZ FESTIVALS</button>
+          <a class="btn btn-dark w-100 my-2" href="{{ url_for('main.category_view', category="JazzFestival") }}">JAZZ FESTIVALS</a>
         </div>
       </div>
     </div>

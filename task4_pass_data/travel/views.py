@@ -18,6 +18,11 @@ def search():
         return render_template('searchresults.html', events=events)
     else:
         return redirect(url_for('main.index'))
+    
+@mainbp.route('/<category>')
+def category_view(category):
+    events = db.session.scalars(db.select(Event).where(Event.event_type == category))
+    return render_template('searchresults.html', events=events)
 
 # Changed
 @mainbp.route('/event/<int:event_id>')
