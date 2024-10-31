@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% from 'bootstrap5/form.html' import render_form %}
+
+{% block content %}
+<main class="container my-5">
+    <h1>Edit Event</h1>
+    <p>Update information about your event</p>
+    {{ render_form(form) }}
+</main>
+{% endblock %}
