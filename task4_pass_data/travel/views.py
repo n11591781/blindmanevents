@@ -75,8 +75,22 @@ def get_tickets(event_id):
     
 
 @mainbp.route('/event/<int:event_id>/confirmation')
+@login_required
 def booking_confirmation(event_id):
     event = db.session.get(Event, event_id)
     if event is None:
         return "Event not found", 404
-    return render_template('events/booking_confirmation.html', event=event)
+
+    # Fetch the most recent booking for the current user and the event
+    booking = db.session.scalars(
+        db.select(PurchasedTicket).where(
+            PurchasedTicket.event_id == event_id,
+            PurchasedTicket.user_id == current_user.id
+        )
+    ).first()  # Adjust if there might be multiple bookings per event
+
+    if booking is None:
+        return "Booking not found", 404
+
+    # Pass the numeric booking ID (using `id` instead of `ticket_id`) to the template
+    return render_template('events/booking_confirmation.html', event=event, booking_id=booking.id)
