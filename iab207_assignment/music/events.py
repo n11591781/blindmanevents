@@ -47,7 +47,7 @@ def create():
             event_description=form.event_description.data, 
             image=db_file_path,
             tickets_remaining=form.tickets_remaining.data, 
-            status=form.status.data, 
+            status="Open", 
             ticket_price=form.ticket_price.data, 
             organizer_id=current_user.id,
             event_type=form.event_type.data

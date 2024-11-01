@@ -70,6 +70,8 @@ def get_tickets(event_id):
                 purchased_ticket = PurchasedTicket(ticket_id=ticket_identifier, user_id=current_user.id, event_id=event.id)
                 event.tickets_remaining -= 1
                 db.session.add(purchased_ticket)
+            if event.tickets_remaining == 0:
+                event.status="Sold Out"
             db.session.commit()  # Save changes to the database
             # Redirect to confirmation page after purchase
             return redirect(url_for('main.booking_confirmation', event_id=event_id))
