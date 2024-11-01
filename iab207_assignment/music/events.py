@@ -7,7 +7,7 @@ from werkzeug.utils import secure_filename
 from flask_login import login_required, current_user
 
 # Define a blueprint for event-related routes with a URL prefix '/events'
-eventdp = Blueprint('destination', __name__, url_prefix='/events')
+eventdp = Blueprint('event', __name__, url_prefix='/events')
 
 @eventdp.route('/<id>')
 def show(id):
@@ -46,10 +46,11 @@ def create():
             location=form.location.data, 
             event_description=form.event_description.data, 
             image=db_file_path,
-            tickets_remaining=form.number_of_tickets.data, 
+            tickets_remaining=form.tickets_remaining.data, 
             status=form.status.data, 
-            ticket_price=form.price_of_tickets.data, 
-            organizer_id=current_user.id
+            ticket_price=form.ticket_price.data, 
+            organizer_id=current_user.id,
+            event_type=form.event_type.data
         )
         
         # Add the event to the database session and commit it
@@ -58,7 +59,7 @@ def create():
         
         # Flash success message and redirect to the event creation page
         flash('Successfully created new event', 'success')
-        return redirect(url_for('destination.create'))
+        return redirect(url_for('event.create'))
     
     # Render the event creation form if the request is GET or form validation fails
     return render_template('events/create.html', form=form)
@@ -101,7 +102,7 @@ def comment(id):
         flash('Your comment has been added', 'success')
     
     # Redirect to the event's detail page after adding the comment
-    return redirect(url_for('destination.show', id=id))
+    return redirect(url_for('event.show', id=id))
 
 @eventdp.route('/<id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -115,7 +116,7 @@ def edit(id):
     # Check if the current user is the organizer of the event
     if event.organizer_id != current_user.id:
         flash("You are not authorized to edit this event", "danger")
-        return redirect(url_for('destination.show', id=id))
+        return redirect(url_for('event.show', id=id))
     
     # Initialize the form with existing event data
     form = EventForm(obj=event)
@@ -127,9 +128,10 @@ def edit(id):
         event.time = form.time.data
         event.location = form.location.data
         event.event_description = form.event_description.data
-        event.tickets_remaining = form.number_of_tickets.data
+        event.tickets_remaining = form.tickets_remaining.data
         event.status = form.status.data
-        event.ticket_price = form.price_of_tickets.data
+        event.ticket_price = form.ticket_price.data
+        event.event_type = form.event_type.data
         
         # Check if a new image is uploaded and update it
         if form.image.data:
@@ -141,7 +143,7 @@ def edit(id):
         flash("Event updated successfully", "success")
         
         # Redirect to the event's detail page after updating
-        return redirect(url_for('destination.show', id=id))
+        return redirect(url_for('event.show', id=id))
     
     # Render the event edit form if request is GET or form validation fails
     return render_template('events/edit_event.html', form=form, event=event)

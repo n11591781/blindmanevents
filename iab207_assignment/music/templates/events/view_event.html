@@ -51,7 +51,7 @@
         <!-- Edit Event Button (Only for Organizer) -->
         {% if current_user.id == event.organizer_id %}
         <div class="text-end mt-3">
-          <a href="{{ url_for('destination.edit', id=event.id) }}" class="btn btn-primary">Edit Event</a>
+          <a href="{{ url_for('event.edit', id=event.id) }}" class="btn btn-primary">Edit Event</a>
         </div>
         {% endif %}
 
@@ -68,10 +68,7 @@
       <div class="card p-4 shadow-sm mb-5">
         <h5 class="fw-bold">Organizer Details</h5>
         <div class="row">
-          <div class="col-md-4">
-            <img src="image/Demacia_Hall.webp" class="img-fluid rounded" alt="Organizer Image">
-          </div>
-          <div class="col-md-8">
+          <div class="col-md-8" style="margin-top: 10px">
             <p><strong>Organizer: </strong>{{ event.user.username }}</p>
             <p><strong>User Since: </strong>{{ event.user.joined_on.strftime('%Y-%m-%d') }}</p>
           </div>
@@ -107,7 +104,7 @@
           {% endif %}
 
           <!-- Link to Event Details -->
-          <a href="{{url_for('destination.show', id=event.id)}}" class="btn btn-dark mt-3"
+          <a href="{{url_for('event.show', id=event.id)}}" class="btn btn-dark mt-3"
             >Event Details</a
           >
         </div>

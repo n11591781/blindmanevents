@@ -1,4 +1,4 @@
-from travel import create_app  # Import the create_app function from the travel package
+from music import create_app  # Import the create_app function from the travel package
 
 # Check if this script is run directly
 if __name__ == '__main__':

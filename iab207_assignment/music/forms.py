@@ -19,16 +19,18 @@ class EventForm(FlaskForm):
     # Description of the event
     event_description = TextAreaField('Event Description', validators=[InputRequired()])
     # Image upload field with file type restrictions
-    image = FileField('Destination Image', validators=[
+    image = FileField('Event Image', validators=[
         FileRequired(message='Image cannot be empty'), 
         FileAllowed(ALLOWED_FILE, message='Only PNG or JPG files allowed')
     ])
     # Number of tickets available for the event
-    number_of_tickets = StringField('Number of Tickets', validators=[InputRequired()])
+    tickets_remaining = StringField('Number of Tickets', validators=[InputRequired()])
     # Price of the tickets
-    price_of_tickets = StringField('Price of Tickets', validators=[InputRequired()])
+    ticket_price = StringField('Price of Tickets', validators=[InputRequired()])
     # Status of the event (e.g., Open, Cancelled)
     status = StringField('Status', validators=[InputRequired()])
+    # Type of the event (e.g., LiveJazz, TributeShow)
+    event_type = StringField('Type of Event', validators=[InputRequired()])
     # Submit button for creating the event
     submit = SubmitField("Create")
     
