@@ -3,48 +3,69 @@ from wtforms.fields import TextAreaField, SubmitField, StringField, PasswordFiel
 from wtforms.validators import InputRequired, Email, EqualTo
 from flask_wtf.file import FileRequired, FileField, FileAllowed
 
-ALLOWED_FILE = {'PNG','JPG','png','jpg'}
+# Allowed file types for event images
+ALLOWED_FILE = {'PNG', 'JPG', 'png', 'jpg'}
 
-# Create new destination
+# Form for creating a new event
 class EventForm(FlaskForm):
-  title = StringField('Title', validators=[InputRequired()])
-  date = StringField('Date', validators=[InputRequired()])
-  time = StringField('Time', validators=[InputRequired()])
-  location = StringField('Location', validators=[InputRequired()])
-  event_description = TextAreaField('Event Description', validators = [InputRequired()])
-  image = FileField('Destination Image', validators=[FileRequired(message='Image cannot be empty'), FileAllowed(ALLOWED_FILE, message='Only PNG or JPG files allowed')])
-  number_of_tickets = StringField('Number of Tickets', validators=[InputRequired()])
-  price_of_tickets = StringField('Price of Tickets', validators=[InputRequired()])
-  status = StringField('Status', validators=[InputRequired()])
-  submit = SubmitField("Create")
+    # Title of the event
+    title = StringField('Title', validators=[InputRequired()])
+    # Date of the event
+    date = StringField('Date', validators=[InputRequired()])
+    # Time of the event
+    time = StringField('Time', validators=[InputRequired()])
+    # Location of the event
+    location = StringField('Location', validators=[InputRequired()])
+    # Description of the event
+    event_description = TextAreaField('Event Description', validators=[InputRequired()])
+    # Image upload field with file type restrictions
+    image = FileField('Destination Image', validators=[
+        FileRequired(message='Image cannot be empty'), 
+        FileAllowed(ALLOWED_FILE, message='Only PNG or JPG files allowed')
+    ])
+    # Number of tickets available for the event
+    number_of_tickets = StringField('Number of Tickets', validators=[InputRequired()])
+    # Price of the tickets
+    price_of_tickets = StringField('Price of Tickets', validators=[InputRequired()])
+    # Status of the event (e.g., Open, Cancelled)
+    status = StringField('Status', validators=[InputRequired()])
+    # Submit button for creating the event
+    submit = SubmitField("Create")
     
-# User login
+# Form for user login
 class LoginForm(FlaskForm):
+    # Username field for login
     user_name = StringField("User Name", validators=[InputRequired('Enter user name')])
+    # Password field for login
     password = PasswordField("Password", validators=[InputRequired('Enter user password')])
+    # Submit button for logging in
     submit = SubmitField("Login")
 
-# User register
+# Form for user registration
 class RegisterForm(FlaskForm):
+    # Username field for registration
     user_name = StringField("User Name", validators=[InputRequired()])
+    # Email field with validation for proper email format
     email_id = StringField("Email Address", validators=[Email("Please enter a valid email")])
     
-    # New fields for first name, last name, street address, and contact number
+    # Additional fields for user information
     first_name = StringField("First Name", validators=[InputRequired()])
     last_name = StringField("Last Name", validators=[InputRequired()])
     street_address = StringField("Street Address", validators=[InputRequired()])
     contact_number = StringField("Contact Number", validators=[InputRequired()])
     
-    # linking two fields - password should be equal to data entered in confirm
+    # Password field with confirmation for matching passwords
     password = PasswordField("Password", validators=[InputRequired(),
                   EqualTo('confirm', message="Passwords should match")])
+    # Confirm password field
     confirm = PasswordField("Confirm Password")
     
-    # submit button
+    # Submit button for registering
     submit = SubmitField("Register")
 
-
-# User comment
+# Form for adding a comment
 class CommentForm(FlaskForm):
-  text = TextAreaField('Comment', [InputRequired()])
-  submit = SubmitField('Create')
+    # Text area for the comment content
+    text = TextAreaField('Comment', [InputRequired()])
+    # Submit button to post the comment
+    submit = SubmitField('Create')
