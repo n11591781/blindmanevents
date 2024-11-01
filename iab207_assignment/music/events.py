@@ -129,7 +129,6 @@ def edit(id):
         event.location = form.location.data
         event.event_description = form.event_description.data
         event.tickets_remaining = form.tickets_remaining.data
-        event.status = form.status.data
         event.ticket_price = form.ticket_price.data
         event.event_type = form.event_type.data
         
