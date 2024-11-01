@@ -146,3 +146,21 @@ def edit(id):
     
     # Render the event edit form if request is GET or form validation fails
     return render_template('events/edit_event.html', form=form, event=event)
+
+@eventdp.route('/<id>/cancel', methods=['GET', 'POST'])
+@login_required
+def cancel(id):
+    # Endpoint to edit an existing event, restricted to the event organizer
+    event = db.session.scalar(db.select(Event).where(Event.id == id))
+    if not event:
+        # Return a 404 error if event is not found
+        abort(404)
+        # Check if the current user is the organizer of the event
+    if event.organizer_id != current_user.id:
+            flash("You are not authorized to edit this event", "danger")
+            return redirect(url_for('event.show', id=id))
+    # Changes the status of the event to Cancelled
+    event.status = "Cancelled"
+    db.session.commit()
+    # Redirect to the event's detail page after updating 
+    return redirect(url_for('event.show', id=id))

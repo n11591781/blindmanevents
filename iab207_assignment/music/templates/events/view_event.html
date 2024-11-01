@@ -52,6 +52,7 @@
         {% if current_user.id == event.organizer_id %}
         <div class="text-end mt-3">
           <a href="{{ url_for('event.edit', id=event.id) }}" class="btn btn-primary">Edit Event</a>
+          <a href="{{ url_for('event.cancel', id=event.id) }}" class="btn btn-danger">Cancel Event</a>
         </div>
         {% endif %}
 
