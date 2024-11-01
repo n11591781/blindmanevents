@@ -27,8 +27,6 @@ class EventForm(FlaskForm):
     tickets_remaining = StringField('Number of Tickets', validators=[InputRequired()])
     # Price of the tickets
     ticket_price = StringField('Price of Tickets', validators=[InputRequired()])
-    # Status of the event (e.g., Open, Cancelled)
-    status = StringField('Status', validators=[InputRequired()])
     # Type of the event (e.g., LiveJazz, TributeShow)
     event_type = StringField('Type of Event', validators=[InputRequired()])
     # Submit button for creating the event
