@@ -4,86 +4,123 @@ from .forms import EventForm, CommentForm
 from . import db
 import os
 from werkzeug.utils import secure_filename
-# additional import:
 from flask_login import login_required, current_user
 
+# Define a blueprint for event-related routes with a URL prefix '/events'
 eventdp = Blueprint('destination', __name__, url_prefix='/events')
 
 @eventdp.route('/<id>')
 def show(id):
+    # Fetch the event by ID from the database
     event = db.session.scalar(db.select(Event).where(Event.id == id))
     if not event:
+        # Return a 404 error if event is not found
         abort(404)
+    
+    # Retrieve other events organized by the same user
     organizer_events = db.session.scalars(db.select(Event).where(Event.organizer_id == event.organizer_id)).all()
+    
+    # Initialize a comment form for the event
     form = CommentForm()
+    
+    # Render the event detail page with the event data, organizer's other events, and the comment form
     return render_template('events/view_event.html', event=event, organizer_events=organizer_events, form=form)
 
 @eventdp.route('/create', methods=['GET', 'POST'])
 @login_required
 def create():
-  print('Method type: ', request.method)
-  form = EventForm()
-  if form.validate_on_submit():
-    # call the function that checks and returns image
-    db_file_path = check_upload_file(form)
-    event = Event(title=form.title.data, date=form.date.data, time=form.time.data, location=form.location.data, event_description=form.event_description.data, image=db_file_path,
-    tickets_remaining=form.number_of_tickets.data, status=form.status.data, ticket_price=form.price_of_tickets.data, organizer_id=current_user.id)
-    # add the object to the db session
-    db.session.add(event)
-    # commit to the database
-    db.session.commit()
-    flash('Successfully created new event', 'success')
-    # Always end with redirect when form is valid
-    return redirect(url_for('destination.create'))
-  return render_template('events/create.html', form=form)
+    # Endpoint for creating a new event, accessible only by logged-in users
+    print('Method type: ', request.method)  # Debugging: print request method type
+    form = EventForm()
+    
+    # Check if form data is valid on submission
+    if form.validate_on_submit():
+        # Handle file upload for the event image and get the file path
+        db_file_path = check_upload_file(form)
+        
+        # Create a new Event object with form data and set the organizer to the current user
+        event = Event(
+            title=form.title.data, 
+            date=form.date.data, 
+            time=form.time.data, 
+            location=form.location.data, 
+            event_description=form.event_description.data, 
+            image=db_file_path,
+            tickets_remaining=form.number_of_tickets.data, 
+            status=form.status.data, 
+            ticket_price=form.price_of_tickets.data, 
+            organizer_id=current_user.id
+        )
+        
+        # Add the event to the database session and commit it
+        db.session.add(event)
+        db.session.commit()
+        
+        # Flash success message and redirect to the event creation page
+        flash('Successfully created new event', 'success')
+        return redirect(url_for('destination.create'))
+    
+    # Render the event creation form if the request is GET or form validation fails
+    return render_template('events/create.html', form=form)
 
 def check_upload_file(form):
-  # get file data from form  
-  fp = form.image.data
-  filename = fp.filename
-  # get the current path of the module file… store image file relative to this path  
-  BASE_PATH = os.path.dirname(__file__)
-  # upload file location – directory of this file/static/image
-  upload_path = os.path.join(BASE_PATH, 'static/image', secure_filename(filename))
-  # store relative path in DB as image location in HTML is relative
-  db_upload_path = '/static/image/' + secure_filename(filename)
-  # save the file and return the db upload path
-  fp.save(upload_path)
-  return db_upload_path
+    # Handle the image file upload for an event
+    fp = form.image.data  # Access the uploaded file
+    filename = fp.filename  # Get the filename
+    
+    # Define the base path and upload path for saving the file
+    BASE_PATH = os.path.dirname(__file__)
+    upload_path = os.path.join(BASE_PATH, 'static/image', secure_filename(filename))
+    
+    # Define the relative path for database storage (for use in HTML)
+    db_upload_path = '/static/image/' + secure_filename(filename)
+    
+    # Save the file at the specified upload path and return the database path
+    fp.save(upload_path)
+    return db_upload_path
 
 @eventdp.route('/<id>/comment', methods=['GET', 'POST'])  
 @login_required
 def comment(id):  
-    form = CommentForm()  
-    # get the destination object associated to the page and the comment
-    event = db.session.scalar(db.select(Event).where(Event.id==id))
-    if form.validate_on_submit():  
-      # read the comment from the form
-      comment = Comment(text=form.text.data, event=event, user=current_user) 
-      # here the back-referencing works - comment.destination is set
-      # and the link is created
-      db.session.add(comment) 
-      db.session.commit() 
-      # flashing a message which needs to be handled by the html
-      flash('Your comment has been added', 'success')  
-      # print('Your comment has been added', 'success') 
-    # using redirect sends a GET request to destination.show
+    # Endpoint to add a comment to a specific event, restricted to logged-in users
+    form = CommentForm()
+    
+    # Fetch the event associated with the comment by its ID
+    event = db.session.scalar(db.select(Event).where(Event.id == id))
+    
+    # Check if the form submission is valid
+    if form.validate_on_submit():
+        # Create a Comment object with the comment text, event, and current user
+        comment = Comment(text=form.text.data, event=event, user=current_user)
+        
+        # Add the comment to the database and commit it
+        db.session.add(comment)
+        db.session.commit()
+        
+        # Flash success message and redirect to the event page
+        flash('Your comment has been added', 'success')
+    
+    # Redirect to the event's detail page after adding the comment
     return redirect(url_for('destination.show', id=id))
 
 @eventdp.route('/<id>/edit', methods=['GET', 'POST'])
 @login_required
 def edit(id):
+    # Endpoint to edit an existing event, restricted to the event organizer
     event = db.session.scalar(db.select(Event).where(Event.id == id))
     if not event:
+        # Return a 404 error if event is not found
         abort(404)
     
     # Check if the current user is the organizer of the event
     if event.organizer_id != current_user.id:
         flash("You are not authorized to edit this event", "danger")
         return redirect(url_for('destination.show', id=id))
-
+    
+    # Initialize the form with existing event data
     form = EventForm(obj=event)
     
+    # Update the event details if form is valid on submission
     if form.validate_on_submit():
         event.title = form.title.data
         event.date = form.date.data
@@ -94,13 +131,17 @@ def edit(id):
         event.status = form.status.data
         event.ticket_price = form.price_of_tickets.data
         
-        # Handle image update
+        # Check if a new image is uploaded and update it
         if form.image.data:
             db_file_path = check_upload_file(form)
             event.image = db_file_path
-
+        
+        # Commit the updated event data to the database
         db.session.commit()
         flash("Event updated successfully", "success")
+        
+        # Redirect to the event's detail page after updating
         return redirect(url_for('destination.show', id=id))
-
+    
+    # Render the event edit form if request is GET or form validation fails
     return render_template('events/edit_event.html', form=form, event=event)

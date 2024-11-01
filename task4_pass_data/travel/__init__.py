@@ -5,62 +5,69 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 import datetime
 
+# Initialize SQLAlchemy for database management
 db = SQLAlchemy()
 
 def create_app():
+    # Initialize the Flask application
     app = Flask(__name__)
-    # we use this utility module to display forms quickly
+
+    # Use Bootstrap5 for easy styling of forms and components
     Bootstrap5(app)
 
-    # this is a much safer way to store passwords
+    # Set up Bcrypt for secure password hashing
     Bcrypt(app)
 
-    # a secret key for the session object
-    # (it would be better to use an environment variable here)
+    # Secret key for session management (suggest using environment variable in production)
     app.secret_key = 'somerandomvalue'
 
-    # Configure and initialise DB
+    # Configure the database URI for SQLite and initialize the database with the app
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bmdb.sqlite'
     db.init_app(app)
 
-    # config upload folder
+    # Set the upload folder path for event images
     UPLOAD_FOLDER = '/static/image'
     app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER 
     
-    # initialise the login manager
+    # Set up the login manager for handling user sessions
     login_manager = LoginManager()
+    # Redirect users to 'auth.login' page if not authenticated
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    # create a user loader function that takes user_id and returns User
-    from .models import User  # importing here to avoid circular references
+    # User loader function required by Flask-Login to manage user sessions
+    from .models import User  # Import User model here to prevent circular imports
     @login_manager.user_loader
     def load_user(user_id):
+        # Return user object by querying the database with user_id
         return db.session.scalar(db.select(User).where(User.id == user_id))
 
-    # add Blueprints
-    from . import views
+    # Register blueprints for modular routing
+    from . import views  # Import main views
     app.register_blueprint(views.mainbp)
-    from . import events
+    from . import events  # Import event-specific views
     app.register_blueprint(events.eventdp)
-    from .auth import authbp  
+    from .auth import authbp  # Import authentication views
     app.register_blueprint(authbp, url_prefix='/auth')  
 
-    # Error handling for 404 and 500 errors
+    # Error handling for 404 Not Found
     @app.errorhandler(404)
     def not_found(e):
-        # 404 Page Not Found
+        # Render custom 404 error page
         return render_template("404.html", error=e), 404
 
+    # Error handling for 500 Internal Server Error
     @app.errorhandler(500)
     def internal_error(e):
-        # 500 Internal Server Error
+        # Render custom 500 error page
         return render_template("500.html", error=e), 500
 
-    # Context processor to pass the current year to all templates
+    # Context processor to inject the current year into all templates
     @app.context_processor
     def get_context():
+        # Pass the current year to templates for display in the footer or other sections
         year = datetime.datetime.today().year
         return dict(year=year)
 
+    # Return the Flask app instance
     return app
